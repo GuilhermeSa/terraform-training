@@ -4,7 +4,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-// Por padrão o terraform infere as dependências de acordo com as expressões utilizadas
+# Por padrão o terraform infere as dependências de acordo com as expressões utilizadas
 data "aws_ami" "amz_ec2" {
   most_recent = true
 
@@ -25,7 +25,7 @@ resource "aws_instance" "instance_a" {
   }
 }
 
-// Nem sempre é possível inferir, nesses casos o “depends_on” pode ser utilizado
+# Nem sempre é possível inferir, nesses casos o “depends_on” pode ser utilizado
 resource "aws_instance" "instance_b" {
   ami           = "${data.aws_ami.amz_ec2.id}"
   instance_type = "t2.micro"
@@ -37,7 +37,7 @@ resource "aws_instance" "instance_b" {
   depends_on = ["aws_instance.instance_a"]
 }
 
-// Recursos sem dependências são criados em paralelo
+# Recursos sem dependências são criados em paralelo
 resource "aws_instance" "instance_c" {
   ami           = "ami-0080e4c5bc078760e"
   instance_type = "t2.micro"
