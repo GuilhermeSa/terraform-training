@@ -29,3 +29,18 @@ resource "aws_instance" "instance_a" {
     Name = "Instance-A"
   }
 }
+
+// Se um provisioner falha durante a criação, o recurso é criado porém é marcado como tainted pelo Terraform.
+// Durante o próximo apply, recursos marcados como tainted são recriados.
+resource "aws_instance" "instance_b" {
+  ami           = "${data.aws_ami.amz_ec2.id}"
+  instance_type = "t2.micro"
+
+  provisioner "local-exec" {
+    command = "some-unknown-command"
+  }
+
+  tags = {
+    Name = "Instance-B"
+  }
+}
