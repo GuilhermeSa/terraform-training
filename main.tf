@@ -6,51 +6,26 @@ provider "aws" {
 
 // Por padrão o terraform infere as dependências de acordo com as expressões utilizadas
 data "aws_ami" "amz_ec2" {
-  most_recent = true
+ most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-*"]
-  }
+ owners = ["137112412989"]
 
-  owners = ["591542846629"] # AWS
+ filter {
+   name   = "name"
+   values = ["amzn-ami-hvm-*-x86_64-gp2"]
+ }
 }
 
+// Provisioners são usados no momento da criação de recursos, quando é necessário executar algum tipo de configuração inicial como transferir arquivos ou executar algum script ou ferramenta.
 resource "aws_instance" "instance_a" {
   ami           = "${data.aws_ami.amz_ec2.id}"
   instance_type = "t2.micro"
 
+  provisioner "local-exec" {
+    command = "echo 'Hello world!'"
+  }
+
   tags = {
     Name = "Instance-A"
-  }
-}
-
-// Nem sempre é possível inferir, nesses casos o “depends_on” pode ser utilizado
-resource "aws_instance" "instance_b" {
-  ami           = "${data.aws_ami.amz_ec2.id}"
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "Instance-B"
-  }
-
-  depends_on = ["aws_instance.instance_a"]
-}
-
-// Recursos sem dependências são criados em paralelo
-resource "aws_instance" "instance_c" {
-  ami = "ami-0de53d8956e8dcf80"
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "Instance-C"
-  }
-}
-resource "aws_instance" "instance_d" {
-  ami = "ami-0de53d8956e8dcf80"
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "Instance-D"
   }
 }
