@@ -37,7 +37,7 @@ resource "aws_instance" "instance_b" {
   depends_on = ["aws_instance.instance_a"]
 }
 
-// Recursos sem depêndencias são criados em paralelo
+// Recursos sem dependências são criados em paralelo
 resource "aws_instance" "instance_c" {
   ami = "ami-0de53d8956e8dcf80"
   instance_type = "t2.micro"
