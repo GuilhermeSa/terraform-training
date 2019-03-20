@@ -1,4 +1,3 @@
-# Módulo é uma forma de encapsular código Terraform
 data "aws_ami" "amz_ec2" {
   most_recent = true
 
