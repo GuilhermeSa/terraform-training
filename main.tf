@@ -8,12 +8,12 @@ provider "aws" {
 data "aws_ami" "amz_ec2" {
   most_recent = true
 
+  owners = ["137112412989"]
+
   filter {
     name   = "name"
-    values = ["amzn2-ami-*"]
+    values = ["amzn-ami-hvm-*-x86_64-gp2"]
   }
-
-  owners = ["591542846629"] # AWS
 }
 
 resource "aws_instance" "instance_a" {
@@ -39,15 +39,16 @@ resource "aws_instance" "instance_b" {
 
 // Recursos sem dependências são criados em paralelo
 resource "aws_instance" "instance_c" {
-  ami = "ami-0de53d8956e8dcf80"
+  ami           = "ami-0de53d8956e8dcf80"
   instance_type = "t2.micro"
 
   tags = {
     Name = "Instance-C"
   }
 }
+
 resource "aws_instance" "instance_d" {
-  ami = "ami-0de53d8956e8dcf80"
+  ami           = "ami-0de53d8956e8dcf80"
   instance_type = "t2.micro"
 
   tags = {
