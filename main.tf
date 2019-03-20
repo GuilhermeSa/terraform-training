@@ -10,13 +10,9 @@ locals {
 }
 
 
-# Módulos podem ser importados de diversas formas, tais como caminho relativo, endereço no Github ou endereço no Registry do Terraform.
-# Para mais informações: https://www.terraform.io/docs/modules/sources.html
 module "instance_a" {
-  # Ao importar um novo módulo, o comando terraform init deve ser utilizado para que o Terraform baixe o módulo
   source = "./instance-module"
 
-  # Variáveis definidas dentro de módulos podem ser passadas como argumentos
   names = ["Instance-A", "Instance-B"]
   type  = "${local.instance_type}"
 }
