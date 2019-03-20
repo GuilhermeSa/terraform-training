@@ -12,7 +12,7 @@ data "aws_ami" "amz_ec2" {
 
 resource "aws_instance" "instance" {
   ami           = "${data.aws_ami.amz_ec2.id}"
-  instance_type = "t2.micro"
+  instance_type = "${var.type}"
   # Count pode ser usado para "iterar" uma lista
   count         = "${length(var.names)}"
 

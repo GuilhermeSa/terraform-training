@@ -4,6 +4,12 @@ provider "aws" {
   region = "us-east-1"
 }
 
+// Locals são variáveis locais
+locals {
+  instance_type = "t2.micro"
+}
+
+
 # Módulos podem ser importados de diversas formas, tais como caminho relativo, endereço no Github ou endereço no Registry do Terraform.
 # Para mais informações: https://www.terraform.io/docs/modules/sources.html
 module "instance_a" {
@@ -12,12 +18,12 @@ module "instance_a" {
 
   # Variáveis definidas dentro de módulos podem ser passadas como argumentos
   names = ["Instance-A", "Instance-B"]
-  type  = "t2.micro"
+  type  = "${local.instance_type}"
 }
 
 resource "aws_instance" "multiple_instances" {
   ami           = "ami-0de53d8956e8dcf80"
-  instance_type = "t2.micro"
+  instance_type = "${local.instance_type}"
   # Count pode ser usado para criar mais de uma cópia de um recurso
   count         = 3
 
@@ -27,7 +33,7 @@ resource "aws_instance" "multiple_instances" {
 }
 resource "aws_instance" "no_instance" {
   ami           = "ami-0de53d8956e8dcf80"
-  instance_type = "t2.micro"
+  instance_type = "${local.instance_type}"
   # Count com valor 0 não cria nenhum recurso
   count         = 0
 
