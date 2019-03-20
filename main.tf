@@ -11,16 +11,27 @@ module "instance_a" {
   source = "./instance-module"
 
   # Variáveis definidas dentro de módulos podem ser passadas como argumentos
-  name = "Instance-A"
-  type = "t2.micro"
+  names = ["Instance-A", "Instance-B"]
+  type  = "t2.micro"
 }
 
-# Módulos só podem conter dependências implícitas.
-# O argumento depends_on não existe para módulos (Possivelmente isso será mudado a partir da versão 0.12)
-module "s3-bucket" {
-  source    = "cloudposse/s3-bucket/aws"
-  version   = "0.3.0"
-  name      = "${module.instance_a.id}-bucket"
-  stage     = "lab"
-  namespace = "tft"
+resource "aws_instance" "multiple_instances" {
+  ami           = "ami-0de53d8956e8dcf80"
+  instance_type = "t2.micro"
+  # Count pode ser usado para criar mais de uma cópia de um recurso
+  count         = 3
+
+  tags = {
+    Name = "Instance-C"
+  }
+}
+resource "aws_instance" "no_instance" {
+  ami           = "ami-0de53d8956e8dcf80"
+  instance_type = "t2.micro"
+  # Count com valor 0 não cria nenhum recurso
+  count         = 0
+
+  tags = {
+    Name = "Instance-D"
+  }
 }

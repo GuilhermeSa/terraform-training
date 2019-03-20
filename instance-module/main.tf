@@ -13,15 +13,16 @@ data "aws_ami" "amz_ec2" {
 resource "aws_instance" "instance" {
   ami           = "${data.aws_ami.amz_ec2.id}"
   instance_type = "t2.micro"
+  # Count pode ser usado para "iterar" uma lista
+  count         = "${length(var.names)}"
 
   tags = {
-    Name = "${var.name}"
+    Name = "${element(var.names, count.index)}"
   }
 }
 
-variable "name" {}
 variable "type" {}
 
-output "id" {
-  value = "${aws_instance.instance.id}"
+variable "names" {
+  type = "list"
 }
