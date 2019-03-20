@@ -39,7 +39,7 @@ resource "aws_instance" "instance_b" {
 
 // Recursos sem dependências são criados em paralelo
 resource "aws_instance" "instance_c" {
-  ami           = "ami-0de53d8956e8dcf80"
+  ami           = "ami-0080e4c5bc078760e"
   instance_type = "t2.micro"
 
   tags = {
@@ -48,7 +48,7 @@ resource "aws_instance" "instance_c" {
 }
 
 resource "aws_instance" "instance_d" {
-  ami           = "ami-0de53d8956e8dcf80"
+  ami           = "ami-0080e4c5bc078760e"
   instance_type = "t2.micro"
 
   tags = {
