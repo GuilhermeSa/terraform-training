@@ -13,60 +13,30 @@ data "aws_ami" "amz_ec2" {
   }
 }
 
-# Variável vazia
-# Nesse caso, consideramos que a ‘name’ é obrigatório
 variable "name" {}
 
-# Variável com valor padrão, se não for definida, o 'tf' vai ser utilizado
-# Nesse caso, consideramos que a `prefix` é opcional
-variable "prefix" {
-  default = "tf"
-}
-
-# Cria uma t2.micro com o nome usando as variáveis prefix e name
-resource "aws_instance" "variable_example" {
+resource "aws_instance" "output_example" {
   ami           = "${data.aws_ami.amz_ec2.id}"
   instance_type = "t2.micro"
 
   tags = {
-    Name = "${var.prefix}-training-${var.name}"
+    Name = "tf-training-${var.name}"
   }
 }
 
-# Tipos de variáveis
-# string
-variable "v_string" {
-  type    = "string"
-  default = "value"
+# Outputs da EC2 criada  
+output "ec2_public_ip" {
+  value = "${aws_instance.output_example.public_ip}"
 }
 
-# string multiline
-variable "v_long_string" {
-  type = "string"
-
-  default = <<EOF
-This is a long key.
-Running over several lines.
-EOF
+output "ec2_id" {
+  value = "${aws_instance.output_example.id}"
 }
 
-# number
-variable "v_number" {
-  default = 1
+output "ec2_private_ip" {
+  value = "${aws_instance.output_example.private_ip}"
 }
 
-# map
-variable "v_map" {
-  type = "map"
-
-  default = {
-    "key1" = "value1"
-    "key2" = "value2"
-  }
-}
-
-# list
-variable "v_list" {
-  type    = "list"
-  default = ["item1", "item2"]
+output "ec2_public_dns" {
+  value = "${aws_instance.output_example.public_dns}"
 }
