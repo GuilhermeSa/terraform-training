@@ -20,7 +20,7 @@ resource "aws_security_group" "sg" {
   }
 
   lifecycle {
-    ignore_changes = ["tags.Catho::Provisioning::Time"]
+    ignore_changes = ["tags.Provisioning::Time"]
   }
 }
 
